@@ -1,7 +1,7 @@
 import mongoose, {SchemaDefinition} from "mongoose";
 import settings from "../../config";
 
-export let index: mongoose.Connection | null = null;
+export let connection: mongoose.Connection | null = null;
 
 export const connect = async () => {
     settings.nodeEnv === "development" && mongoose.set("debug", true);
@@ -10,7 +10,7 @@ export const connect = async () => {
             settings.mongoURI,
         );
         console.log("Mongo DB connected successfully");
-        index = mongoose.connection;
+        connection = mongoose.connection;
     } catch (err) {
         console.log("mongo connection error:" + err);
         throw new Error(JSON.stringify(err));
@@ -22,10 +22,12 @@ export const getModel = <Interface>(
     schemaDefinition: SchemaDefinition,
     extraIndex = undefined,
 ) => {
-    if (!index) throw new Error("Database not initialized");
+    if (!connection) throw new Error("Database not initialized");
     const schema = new mongoose.Schema(schemaDefinition, {
         timestamps: true,
     });
     extraIndex && schema.index(extraIndex);
-    return index.model<Interface>(name);
+    return connection.model<Interface>(name);
 };
+
+export default connection
