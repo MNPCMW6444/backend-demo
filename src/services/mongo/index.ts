@@ -1,33 +1,27 @@
-import mongoose, {SchemaDefinition} from "mongoose";
+import mongoose, {Connection} from "mongoose";
 import settings from "../../config";
 
-export let connection: mongoose.Connection | null = null;
+let connection: Connection | null = null;
 
-export const connect = async () => {
+export const connect = async (): Promise<Connection> => {
+    if (connection) {
+        return connection;
+    }
     settings.nodeEnv === "development" && mongoose.set("debug", true);
     try {
-        await mongoose.connect(
-            settings.mongoURI,
-        );
-        console.log("Mongo DB connected successfully");
+        await mongoose.connect(settings.mongoURI);
+        console.log("MongoDB connected successfully");
         connection = mongoose.connection;
+        return connection;
     } catch (err) {
-        console.log("mongo connection error:" + err);
-        throw new Error(JSON.stringify(err));
+        console.error("MongoDB connection error:", err);
+        throw err;
     }
 };
 
-export const getModel = <Interface>(
-    name: string,
-    schemaDefinition: SchemaDefinition,
-    extraIndex = undefined,
-) => {
-    if (!connection) throw new Error("Database not initialized");
-    const schema = new mongoose.Schema(schemaDefinition, {
-        timestamps: true,
-    });
-    extraIndex && schema.index(extraIndex);
-    return connection.model<Interface>(name);
+export const getConnection = (): Connection => {
+    if (!connection) {
+        throw new Error("Database not initialized - call connect first");
+    }
+    return connection;
 };
-
-export default connection

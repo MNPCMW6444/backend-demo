@@ -1,4 +1,4 @@
-import {getModel} from "..";
+import {buildModel} from "../../models";
 import mongoose, {ObjectId} from "mongoose";
 
 export enum UserStatus {
@@ -7,7 +7,7 @@ export enum UserStatus {
     Blocked = "Blocked",
 }
 
-interface User {
+export interface IUser {
     _id: ObjectId;
     email: string;
     name?: string;
@@ -16,7 +16,7 @@ interface User {
 }
 
 export default () =>
-    getModel<User>("user", {
+    buildModel<IUser>("user", {
         email: {type: String, unique: true,},
         name: {type: String,},
         status: {type: String, enum: Object.values(UserStatus)},

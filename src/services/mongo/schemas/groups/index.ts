@@ -1,19 +1,19 @@
-import {getModel} from "..";
+import {buildModel} from "../../models";
 import {ObjectId} from "mongoose";
 
-enum GroupStatus {
+export enum GroupStatus {
     Empty = "Empty",
     NotEmpty = "NotEmpty",
 }
 
 
-interface Group {
+export interface IGroup {
     _id: ObjectId;
     status: GroupStatus;
 }
 
 
 export default () =>
-    getModel<Group>("group", {
+    buildModel<IGroup>("group", {
         status: {type: String, enum: Object.values(GroupStatus)},
     });
