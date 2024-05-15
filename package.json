@@ -1,0 +1,37 @@
+{
+  "name": "backend-demo",
+  "version": "1.0.0",
+  "description": "for work",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js",
+    "dev": "nodemon --watch \"src/**\" --ext \"ts,json\" --exec \"ts-node src/index.ts\"\n",
+    "start": "node dist/index.js"
+  },
+  "keywords": [],
+  "author": "Michael Nusair",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MNPCMW6444/backend-demo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MNPCMW6444/backend-demo/issues"
+  },
+  "homepage": "https://github.com/MNPCMW6444/backend-demo#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.3.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.12",
+    "esbuild": "^0.21.2",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}

@@ -1,0 +1,12 @@
+#dependencies and dist:
+node_modules
+dist
+
+#platform lock file:
+package-lock.json
+
+#env specific or secrets:
+.env
+
+#IDE Misc:
+.idea
